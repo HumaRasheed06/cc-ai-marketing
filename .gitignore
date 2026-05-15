@@ -39,4 +39,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# internal design notes — not part of the public repo
+docs/
