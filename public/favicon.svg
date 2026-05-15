@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="oklch(0.281 0.031 253)"/>
+  <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle"
+        font-family="Poppins, system-ui, sans-serif" font-size="30" font-weight="700"
+        fill="white" letter-spacing="-1">CC</text>
+</svg>
