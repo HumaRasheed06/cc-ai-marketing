@@ -4,18 +4,24 @@ import { cn } from "@/lib/cn";
 type Variant = "primary" | "ghost" | "outline" | "white";
 type Size = "sm" | "md" | "lg";
 
-type CommonProps = {
+type BaseProps = {
   variant?: Variant;
   size?: Size;
   className?: string;
   children: React.ReactNode;
+  href?: string;
 };
 
-type ButtonProps = CommonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined };
+type ButtonAttrs = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  keyof BaseProps
+>;
+type AnchorAttrs = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  keyof BaseProps
+>;
 
-type AnchorProps = CommonProps &
-  React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+export type ButtonProps = BaseProps & ButtonAttrs & AnchorAttrs;
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap";
@@ -27,8 +33,7 @@ const variants: Record<Variant, string> = {
     "bg-transparent text-foreground hover:bg-accent focus-visible:outline-foreground",
   outline:
     "border border-border bg-transparent text-foreground hover:bg-accent",
-  white:
-    "bg-white text-primary hover:bg-white/90",
+  white: "bg-white text-primary hover:bg-white/90",
 };
 
 const sizes: Record<Size, string> = {
@@ -37,21 +42,23 @@ const sizes: Record<Size, string> = {
   lg: "h-13 px-7 text-base",
 };
 
-export function Button(props: ButtonProps | AnchorProps) {
-  const {
-    variant = "primary",
-    size = "md",
-    className,
-    children,
-    ...rest
-  } = props as CommonProps & Record<string, unknown>;
-
+export function Button({
+  variant = "primary",
+  size = "md",
+  className,
+  children,
+  href,
+  ...rest
+}: ButtonProps) {
   const classes = cn(base, variants[variant], sizes[size], className);
 
-  if ("href" in props && props.href) {
-    const { href, ...anchorRest } = rest as AnchorProps;
+  if (href) {
     return (
-      <a href={href} className={classes} {...anchorRest}>
+      <a
+        href={href}
+        className={classes}
+        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
         {children}
       </a>
     );
